@@ -18,6 +18,7 @@ Mode (pretty sure about cool and heat less sure about the other) :
   <li> 3: circulate
   <li> 4: Dry
 </ul>
+
 Usage:
 ```cpp
 #include "IRremote.h"
