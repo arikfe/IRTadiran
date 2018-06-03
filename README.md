@@ -11,6 +11,13 @@ The bse set of features include
 <li> fan speed manipulation
 </ul>
 
+Mode (pretty sure about cool and heat less sure about the other) :
+<ul>
+  <li> 1: Cool
+  <li> 2: Heat
+  <li> 3: circulate
+  <li> 4: Dry
+</ul>
 Usage:
 ```cpp
 #include "IRremote.h"
