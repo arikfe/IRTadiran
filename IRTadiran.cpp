@@ -20,7 +20,7 @@ IRTadiran::IRTadiran(IRsend* remote) :
 	code[2] = 0x30; //temp
 	code[3] = 0;
 	code[4] = 0;
-	code[5] = 0x30; //swing
+	code[5] = 0x30; //on
 	code[6] = 0;
 	code[7] = 0xb; //checksum
 }
@@ -61,16 +61,26 @@ void IRTadiran::updateChecksum() {
 	int sum = 0;
 	for (int i = 0; i < 7; i++)
 		sum += code[i];
-	int temp = code[2]/2;
-	int fan = (code[1]&0xf0) >>4;
-	code[7] = sum - (0xf * (3 + temp/ 8) + (fan) * 0xf);
+	int temp = code[2] / 2;
+	int fan = (code[1] & 0xf0) >> 4;
+	code[7] = sum - (0xf * (3 + temp / 8) + (fan) * 0xf);
 }
 
 bool IRTadiran::send(bool power, int mode, int fan, int temperature,
-		bool swing) {
-	code[2] = 2 * temperature;
-	code[1] = ((1 + fan) << 4) | (mode & 0xf);
-	updateChecksum();
+bool swing) {
+	if (power) {
+		code[2] = 2 * temperature;
+		code[1] = ((1 + fan) << 4) | (mode & 0xf);
+		updateChecksum();
+	}
+	else {
+		code[0] = 0x1;
+		code[1] = 0x14;
+		code[2] = 0x30;
+		code[6] = code[4] = code[3] = 0x0;
+		code[5] = 0xc0;
+		code[7] = 0x15;
+	}
 	uint16_t* buff = createBuffer();
 	_remote->sendRaw(buff, 264, 38);
 	delete (buff);
@@ -89,5 +99,10 @@ void IRTadiran::setFan(uint8_t fan) {
 
 void IRTadiran::setMode(uint8_t mode) {
 	code[1] = (code[1] & 0xf0) | (mode & 0xf);
+	updateChecksum();
+}
+
+void IRTadiran::setOn(bool isOn) {
+	code[5] = ((isOn ? 0x30 : 0xc0)) | (code[5] & 0xf);
 	updateChecksum();
 }

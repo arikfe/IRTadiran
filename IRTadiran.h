@@ -30,6 +30,7 @@ class IRTadiran {
 		void setTemp(uint8_t temp);
 		void setFan(uint8_t fan);
 		void setMode(uint8_t mode);
+		void setOn(bool isOn);
 		// Send an IR packet with the given parameters.
 		bool send(bool power, int mode, int fan,
 				int temperature, bool swing);
