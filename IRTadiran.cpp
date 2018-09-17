@@ -71,6 +71,7 @@ bool swing) {
 	if (power) {
 		code[2] = 2 * temperature;
 		code[1] = ((1 + fan) << 4) | (mode & 0xf);
+		code[6] = (swing ? 0xc0 : 0);
 		updateChecksum();
 	}
 	else {
