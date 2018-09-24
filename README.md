@@ -30,7 +30,7 @@ void loop()
 {
   IRsend irsend(D3);
   IRTadiran ir(&irsend);
-  e.send(true ,     //On
+  ir.send(true ,     //On
     1,              // Mode - Cool
     1,              // fan spead 1-4
     25,             // temp
