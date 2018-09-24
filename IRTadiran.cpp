@@ -63,7 +63,8 @@ void IRTadiran::updateChecksum() {
 		sum += code[i];
 	int temp = code[2] / 2;
 	int fan = (code[1] & 0xf0) >> 4;
-	code[7] = sum - (0xf * (3 + temp / 8) + (fan) * 0xf + (code[6]?0xb4:0));
+	bool swing = code[6] && 0xc0;
+	code[7] = sum - (0xf * (3 + temp / 8) + (fan) * 0xf + (swing?0xb4:0));
 }
 
 bool IRTadiran::send(bool power, int mode, int fan, int temperature,
