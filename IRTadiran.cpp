@@ -83,6 +83,10 @@ bool swing) {
 		code[5] = 0xc0;
 		code[7] = 0x15;
 	}
+	Serial.printf("\n----data\n");
+	for(int i=0;i<8;i++){
+		Serial.printf("0x%08x\n", code[i]);
+	}
 	uint16_t* buff = createBuffer();
 	_remote->sendRaw(buff, 264, 38);
 	delete (buff);
