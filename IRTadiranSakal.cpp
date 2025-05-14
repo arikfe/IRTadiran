@@ -4,6 +4,7 @@
  *  Created on: Aug 9, 2019
  *      Author: arik
  */
+#define BUFFER_SIZE 139 //2 * 69 + 1
 
 #include "IRTadiranSakal.h"
 
@@ -83,16 +84,15 @@ bool IRTadiranSakal::send(bool power, int mode, int fan, int temperature,
 	code[4] = swing > 0 ? swing * 8 + 0x12 : 2;
 	setOn(power);
 	uint16_t* buff = createBuffer(1);
-	int buffSise = 2 * 69 + 1;
 	Serial.printf("buffer created\n");
-	_remote->sendRaw(buff, buffSise, 38);
+	_remote->sendRaw(buff, BUFFER_SIZE, 38);
 	return true;
 }
 
 uint16_t* IRTadiranSakal::createBuffer(int repeat) {
 
 	int i = 0;
-	uint16_t* buff = new uint16_t[repeat * 69 * 2 + 1];
+	uint16_t* buff = new uint16_t[repeat * BUFFER_SIZE];
 	for (int l = 0; l < repeat; l++) {
 		int count = 0;
 		buff[i++] = 9000;
